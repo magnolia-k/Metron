@@ -4,7 +4,7 @@ require 'fileutils'
 require 'pathname'
 require 'rubygems/version'
 require 'open-uri'
-require 'JSON'
+require 'json'
 
 name = ARGV.shift
 
