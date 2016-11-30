@@ -31,11 +31,6 @@ sbt_plugins = [
     :artifactID => "sbt-scoverage",
     :version_style => /^\d+\.\d+\.\d+$/
   },
-  {
-    :groupID => "com.geirsson",
-    :artifactID => "sbt-scalafmt",
-    :version_style => /^\d+\.\d+\.\d+$/
-  }
 ]
 
 metronapp = MetronApp.new(
