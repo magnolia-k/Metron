@@ -171,7 +171,7 @@ class MetronApp
   end
 
   def create_readme( path )
-    readme_file = Pathname.new( File.join(path, @name, "README" ) )
+    readme_file = Pathname.new( File.join(path, @name, "README.md" ) )
     open(readme_file, "w") do |output|
       output.write( "# #{@name}" )
       output.write( "readme for #{@name}" )
