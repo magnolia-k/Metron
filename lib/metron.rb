@@ -1,3 +1,4 @@
+require 'pathname'
 require 'tmpdir'
 require 'open-uri'
 require 'metron/artifact'
