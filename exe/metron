@@ -51,7 +51,7 @@ metronapp.create_library( Dir.getwd )
 path = Pathname.new( File.join(Dir.getwd, name ) )
 if `which git` != "" then
   Dir.chdir( path )
-  status = `git status`
+  status = IO.popen("git status", :err => [:child, :out])
   if ! status.include?( "fatal" ) then
     `git init`
   end
