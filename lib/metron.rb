@@ -30,6 +30,8 @@ class MetronApp
     
       create_plugin_sbt( tmpdir )
 
+      create_readme( tmpdir )
+
 		  path = Pathname.new( File.join(tmpdir, @name ) )
       FileUtils.cp_r( path, dir)
     end
@@ -165,6 +167,14 @@ class MetronApp
     plugin_sbt_file = Pathname.new( File.join(path, @name, "project", "plugin.sbt" ) )
     open(plugin_sbt_file, "w") do |output|
       output.write( libs.join("\n") )
+    end
+  end
+
+  def create_readme( path )
+    readme_file = Pathname.new( File.join(path, @name, "README" ) )
+    open(readme_file, "w") do |output|
+      output.write( "# #{@name}" )
+      output.write( "readme for #{@name}" )
     end
   end
 end
