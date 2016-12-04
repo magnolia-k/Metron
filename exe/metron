@@ -3,7 +3,6 @@
 require 'optparse'
 require 'metron'
 require 'metron/config'
-require 'yaml'
 
 # configuration
 config = Config.new
@@ -14,8 +13,7 @@ parser.on( '-c file' ) do |file|
     exit false
   end
 
-  conf = yaml.load_file( file )
-  config.set_config( conf )
+  config.set_config( file )
 end
 parser.parse!(ARGV)
 
@@ -36,10 +34,11 @@ end
 path = Pathname.new( File.join( Dir.pwd, name ) )
 if File.exists?( path ) then
   puts "fatal: Directory '#{name}' already exists"
+  exit false
 end
 
 # run!
-metronapp = MetronApp.new( config )
+metronapp = MetronApp.new( name, config )
 
 metronapp.create_library( Dir.getwd )
 

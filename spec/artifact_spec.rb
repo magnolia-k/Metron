@@ -8,7 +8,7 @@ describe Artifact do
         "org.specs2",
         "specs2-core",
         is_scala_library: true,
-        version_style: /^\d+\.\d+\.\d+$/
+        version_style: '^\d+\.\d+\.\d+$'
       )
       expect(artifact.collect_versions("2.12.0").length).to be > 0
     end

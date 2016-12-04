@@ -7,7 +7,11 @@ class Artifact
     @groupID = groupID
     @artifactID = artifactID
     @is_scala_library = is_scala_library
-    @version_style = version_style
+    if version_style == nil then
+      @version_style = nil
+    else
+      @version_style = /#{version_style}/
+    end
   end
 
   def groupID
