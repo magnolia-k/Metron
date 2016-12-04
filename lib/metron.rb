@@ -1,16 +1,17 @@
 require 'pathname'
 require 'tmpdir'
 require 'open-uri'
+require 'metron/config'
 require 'metron/artifact'
 require 'metron/scala'
 require 'metron/sbt'
 
 class MetronApp
-  def initialize( name, dependent_libraries: [], testing_libraries: [], sbt_plugins: [] )
+  def initialize( name, config )
     @name = name
-    @dependent_libraries = dependent_libraries
-    @testing_libraries = testing_libraries
-    @sbt_plugins = sbt_plugins
+    @dependent_libraries = config.dependent_libraries
+    @testing_libraries = config.testing_libraries
+    @sbt_plugins = config.sbt_plugins
 
     @scala = Scala.new
     @sbt   = Sbt.new

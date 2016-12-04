@@ -1,44 +1,45 @@
 #!/usr/bin/env ruby
 
+require 'optparse'
 require 'metron'
+require 'metron/config'
+require 'yaml'
 
-# library name
-name = ARGV.shift
+# configuration
+config = Config.new
+parser = OptionParser.new
+parser.on( '-c file' ) do |file|
+  if ! File.exist? file then
+    puts "fatal: Configuration file '#{file}' does not exists."
+    exit false
+  end
 
-# check env
-path = Pathname.new( File.join(Dir.pwd, name ) )
-if File.exists?( path ) then
-  raise "Directory #{name} is exists!"
+  conf = yaml.load_file( file )
+  config.set_config( conf )
+end
+parser.parse!(ARGV)
+
+# get library name
+if ARGV.empty? then
+  puts "fatal: The name of the library is not specified in the argument."
+  exit false
 end
 
-# default dependent library
-dependent_libraries = []
+name = ARGV.shift
 
-# default testing library
-testing_libraries = [
-  {
-    :groupID          => "org.specs2",
-    :artifactID       => "specs2-core",
-    :is_scala_library => true,
-    :version_style    => /^\d+\.\d+\.\d+$/
-  }
-]
+if name.match(/\W/) then
+  puts "fatal: The name of the library '#{name}' is invalid."
+  exit false
+end
 
-# default sbt plugin
-sbt_plugins = [
-  {
-    :groupID => "org.scoverage",
-    :artifactID => "sbt-scoverage",
-    :version_style => /^\d+\.\d+\.\d+$/
-  },
-]
+# check env
+path = Pathname.new( File.join( Dir.pwd, name ) )
+if File.exists?( path ) then
+  puts "fatal: Directory '#{name}' already exists"
+end
 
-metronapp = MetronApp.new(
-  name,
-  dependent_libraries: dependent_libraries,
-  testing_libraries: testing_libraries,
-  sbt_plugins: sbt_plugins
-)
+# run!
+metronapp = MetronApp.new( config )
 
 metronapp.create_library( Dir.getwd )
 
@@ -51,5 +52,3 @@ if `which git` != "" then
     `git init`
   end
 end
-
-
